@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starbender.Romi.Contracts.Core\Starbender.Romi.Contracts.Core.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Data.Core\Starbender.Romi.Data.Core.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Hardware.Communication\Starbender.Romi.Hardware.Communication.csproj" />
+  </ItemGroup>
+
+</Project>
