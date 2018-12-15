@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-Starbender.Romi.Web.Service-5742A0B0-C486-4B4E-8338-88A4B54E24E5</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="2.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starbender.Romi.Contracts.Core\Starbender.Romi.Contracts.Core.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Data.Core\Starbender.Romi.Data.Core.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Administration\Starbender.Romi.Services.Administration.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Configuration\Starbender.Romi.Services.Configuration.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Device\Starbender.Romi.Services.Device.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Logging\Starbender.Romi.Services.Logging.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Notification\Starbender.Romi.Services.Notification.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Security\Starbender.Romi.Services.Security.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Web.Api\Starbender.Romi.Web.Api.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Web.UI\Starbender.Romi.Web.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Users\Dean Fuqua\.nuget\packages\nlog.config\4.5.11\contentFiles\any\any\NLog.config" Link="NLog.config">
+      <Private>True</Private>
+      <NuGetPackageVersion>4.5.11</NuGetPackageVersion>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <NuGetItemType>None</NuGetItemType>
+      <TargetPath>NLog.config</TargetPath>
+      <NuGetPackageId>NLog.Config</NuGetPackageId>
+    </None>
+  </ItemGroup>
+
+</Project>
