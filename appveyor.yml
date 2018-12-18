@@ -3,6 +3,9 @@ image: Visual Studio 2017
 configuration:
 - Debug
 - Release
+platform:
+- x64
+- ARM
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -18,8 +21,7 @@ dotnet_csproj:
   file_version: '{version}'
   informational_version: '{version}'
 build:
-  publish_wap: true
-  verbosity: normal
+  verbosity: detailed
 notifications:
 - provider: Email
   to:
