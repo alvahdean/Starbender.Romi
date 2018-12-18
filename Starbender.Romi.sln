@@ -37,7 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starbender.Romi.Contracts.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starbender.Romi.Hardware.Communication", "Starbender.Romi.Hardware.Communication\Starbender.Romi.Hardware.Communication.csproj", "{CA2567D4-1DE5-444E-A820-59374EDDF186}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starbender.Romi.Services.Logging", "Starbender.Romi.Services.Logging\Starbender.Romi.Services.Logging.csproj", "{21195BAD-B718-4C63-A9A3-74C5AED3E9D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starbender.Romi.Services.Logging", "Starbender.Romi.Services.Logging\Starbender.Romi.Services.Logging.csproj", "{21195BAD-B718-4C63-A9A3-74C5AED3E9D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metadata", "Metadata", "{BB83F2E6-6555-43AE-9C08-E4B80D5C9306}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

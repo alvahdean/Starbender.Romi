@@ -1,4 +1,4 @@
-﻿namespace Starbender.Romi.Services.Configuration
+﻿namespace Starbender.Romi.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +9,11 @@
     /// </summary>
     public class SupportedInterface
     {
+        /// <summary>
+        /// Primary Key
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Device interface name
         /// </summary>

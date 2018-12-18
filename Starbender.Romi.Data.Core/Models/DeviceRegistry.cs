@@ -1,4 +1,4 @@
-﻿namespace Starbender.Romi.Services.Configuration
+﻿namespace Starbender.Romi.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,11 @@
     /// </summary>
     public class DeviceRegistry
     {
+        /// <summary>
+        /// Primary Key
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Supported interfaces
         /// </summary>

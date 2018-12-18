@@ -330,5 +330,7 @@ ASALocalRun/
 .mfractor/
 
 #AppSettings config files
-appsettings\.json
-appsettings\.Development\.json
+#appsettings\.json
+#appsettings\.Development\.json
+
+Starbender\.Romi\.Data\.Core/Migrations/

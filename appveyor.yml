@@ -1,10 +1,20 @@
 version: 1.0.{build}
-configuration:
-- Debug
-- Release
+image: Visual Studio 2017
+configuration: Debug
+platform: Any CPU
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+before_build:
+- pwsh: dotnet restore
 build:
-  publish_wap: true
-  verbosity: normal
+  parallel: true
+  verbosity: minimal
 notifications:
 - provider: Email
   to:

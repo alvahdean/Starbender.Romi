@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -37,6 +38,7 @@
         }
 
         public IConfiguration Configuration { get; }
+        public RomiSettings RomiSettings { get; private set; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -44,13 +46,22 @@
         /// <param name="services">
         /// The services collection to be configured
         /// </param>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.ReadabilityRules",
+            "SA1101:PrefixLocalCallsWithThis",
+            Justification = "Reviewed. Suppression is OK here.")]
         public void ConfigureServices(IServiceCollection services)
         {
             DependencyInjection.Configure(Configuration, services);
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            RomiSettings = DependencyInjection.LoadSettings(Configuration);
+
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlite(
+                    RomiSettings.ConnectionString,
+                    builder => builder.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
+
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -62,6 +73,25 @@
         /// <param name="env">The hosting environment</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if(!string.IsNullOrWhiteSpace(RomiSettings.ApplicationPath))
+            {
+                Directory.CreateDirectory(RomiSettings.ApplicationPath);
+            }
+            else
+            {
+                throw new InvalidDataException("No ROMI application directory configured in AppSettings!");
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.EnsureCreated();
+            }
+
+            Directory.CreateDirectory(RomiSettings.LogPath);
+            Directory.CreateDirectory(RomiSettings.DataPath);
+            Directory.CreateDirectory(RomiSettings+"/bin");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,7 +99,7 @@
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Index");
                 app.UseHsts();
             }
 
