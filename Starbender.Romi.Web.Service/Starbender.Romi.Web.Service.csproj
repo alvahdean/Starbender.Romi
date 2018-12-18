@@ -52,4 +52,8 @@
     </Content>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir app/romi/db&#xD;&#xA;mkdir app/romi/log&#xD;&#xA;mkdir app/romi/bin&#xD;&#xA;dotnet ef database update&#xD;&#xA;" />
+  </Target>
+
 </Project>
