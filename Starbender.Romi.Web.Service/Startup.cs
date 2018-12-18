@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -37,6 +38,7 @@
         }
 
         public IConfiguration Configuration { get; }
+        public RomiSettings RomiSettings { get; private set; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -52,11 +54,11 @@
         {
             DependencyInjection.Configure(Configuration, services);
 
-            var settings = DependencyInjection.LoadSettings(Configuration);
+            RomiSettings = DependencyInjection.LoadSettings(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlite(
-                    settings.ConnectionString,
+                    RomiSettings.ConnectionString,
                     builder => builder.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
 
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
@@ -71,6 +73,25 @@
         /// <param name="env">The hosting environment</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if(!string.IsNullOrWhiteSpace(RomiSettings.ApplicationPath))
+            {
+                Directory.CreateDirectory(RomiSettings.ApplicationPath);
+            }
+            else
+            {
+                throw new InvalidDataException("No ROMI application directory configured in AppSettings!");
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.EnsureCreated();
+            }
+
+            Directory.CreateDirectory(RomiSettings.LogPath);
+            Directory.CreateDirectory(RomiSettings.DataPath);
+            Directory.CreateDirectory(RomiSettings+"/bin");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
