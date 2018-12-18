@@ -14,7 +14,7 @@ before_build:
 - pwsh: dotnet restore
 build:
   parallel: true
-  verbosity: detailed
+  verbosity: minimal
 notifications:
 - provider: Email
   to:
