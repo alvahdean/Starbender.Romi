@@ -4,4 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Starbender.Romi.Contracts.Core\Starbender.Romi.Contracts.Core.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Data.Core\Starbender.Romi.Data.Core.csproj" />
+    <ProjectReference Include="..\Starbender.Romi.Services.Core\Starbender.Romi.Services.Core.csproj" />
+  </ItemGroup>
+
 </Project>
