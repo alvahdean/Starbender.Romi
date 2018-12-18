@@ -22,6 +22,8 @@ after_build:
     dotnet ef database update
 
     cd ..
+
+    dir /app/romi/dev/data
 notifications:
 - provider: Email
   to:
