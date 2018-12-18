@@ -15,6 +15,13 @@ before_build:
 build:
   parallel: true
   verbosity: minimal
+after_build:
+- pwsh: >-
+    cd Starbender.Romi.Web.Service
+
+    dotnet ef database update
+
+    cd ..
 notifications:
 - provider: Email
   to:
