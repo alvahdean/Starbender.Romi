@@ -20,7 +20,10 @@ dotnet_csproj:
   assembly_version: '{version}'
   file_version: '{version}'
   informational_version: '{version}'
+before_build:
+- pwsh: dotnet restore
 build:
+  parallel: true
   verbosity: detailed
 notifications:
 - provider: Email
