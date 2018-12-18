@@ -44,13 +44,22 @@
         /// <param name="services">
         /// The services collection to be configured
         /// </param>
-        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.ReadabilityRules",
+            "SA1101:PrefixLocalCallsWithThis",
+            Justification = "Reviewed. Suppression is OK here.")]
         public void ConfigureServices(IServiceCollection services)
         {
             DependencyInjection.Configure(Configuration, services);
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            var settings = DependencyInjection.LoadSettings(Configuration);
+
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlite(
+                    settings.ConnectionString,
+                    builder => builder.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
+
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -69,7 +78,7 @@
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Index");
                 app.UseHsts();
             }
 

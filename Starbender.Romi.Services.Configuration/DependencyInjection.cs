@@ -18,8 +18,6 @@
     using NLog.Extensions.Logging;
     using NLog.Layouts;
 
-    using Starbender.Romi.Data;
-
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
     /// <summary>
@@ -27,6 +25,21 @@
     /// </summary>
     public static class DependencyInjection
     {
+        public static RomiSettings LoadSettings(IConfiguration configuration=null)
+        {
+            if (configuration == null)
+            {
+                configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            }
+            var settings = new RomiSettings();
+
+            configuration.Bind("RomiSettings", settings);
+
+            ConfigurePaths(settings);
+
+            return settings;
+        }
+
         /// <summary>
         /// Configuration entry point for the ROMI application services
         /// </summary>
@@ -34,11 +47,7 @@
         /// <param name="services"></param>
         public static void Configure(IConfiguration configuration, IServiceCollection services)
         {
-            var settings = new RomiSettings();
-
-            configuration.Bind("RomiSettings", settings);
-
-            ConfigurePaths(settings);
+            var settings = LoadSettings(configuration);
 
             services.AddSingleton(settings);
 
@@ -63,9 +72,6 @@
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(settings.ConnectionString));
         }
 
         public static void ConfigureData(RomiSettings settings)
@@ -113,10 +119,12 @@
             SimpleLayout logDirectory = null;
             if (!logConfig.Variables.TryGetValue("logDirectory", out logDirectory))
             {
-                logDirectory = new SimpleLayout(settings.LogPath);
-                logConfig.Variables.Add("logDirectory", logDirectory);
+                logConfig.Variables.Add("logDirectory", new SimpleLayout(settings.LogPath));
             }
-
+            else
+            {
+                logConfig.Variables["logDirectory"] = settings.LogPath;
+            }
             LogManager.Configuration = logConfig;
         }
     }

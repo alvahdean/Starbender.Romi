@@ -8,6 +8,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="2.1.6" />
     <PackageReference Include="NLog.Schema" Version="4.5.11" />
     <PackageReference Include="NLog.Web" Version="4.7.0" />
@@ -27,18 +36,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\..\..\Users\Dean Fuqua\.nuget\packages\nlog.config\4.5.11\contentFiles\any\any\NLog.config" Link="NLog.config">
-      <Private>True</Private>
-      <NuGetPackageVersion>4.5.11</NuGetPackageVersion>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <NuGetItemType>None</NuGetItemType>
-      <TargetPath>NLog.config</TargetPath>
-      <NuGetPackageId>NLog.Config</NuGetPackageId>
-    </None>
+    <Content Update="Views\Shared\Error.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_CookieConsentPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_LoginPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_ValidationScriptsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

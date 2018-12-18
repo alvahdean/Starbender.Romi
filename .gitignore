@@ -332,3 +332,5 @@ ASALocalRun/
 #AppSettings config files
 appsettings\.json
 appsettings\.Development\.json
+
+Starbender\.Romi\.Data\.Core/Migrations/
