@@ -18,6 +18,11 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
+        //"bootstrap": "3.3.6",
+        //"jquery": "2.2.0",
+        //"jquery-validation": "1.14.0",
+        //"jquery-validation-unobtrusive": "3.2.6"
+
 //    using NLog.Extensions.Logging;
 
     using Starbender.Romi.Data;
