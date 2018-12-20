@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="bower.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Starbender.Romi.Web.Service\wwwroot\css\bootstrap-darkly.css" Link="wwwroot\css\bootstrap-darkly.css" />
+    <Content Include="..\Starbender.Romi.Web.Service\wwwroot\css\bootstrap-spacelab.css" Link="wwwroot\css\bootstrap-spacelab.css" />
+    <Content Include="..\Starbender.Romi.Web.Service\wwwroot\css\site.css" Link="wwwroot\css\site.css" />
+    <Content Include="..\Starbender.Romi.Web.Service\wwwroot\css\site.min.css" Link="wwwroot\css\site.min.css" />
+    <Content Include="..\Starbender.Romi.Web.Service\wwwroot\favicon.ico" Link="wwwroot\favicon.ico" />
+    <Content Include="bower.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="2.1.6" />
@@ -26,6 +41,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Identity\Pages\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\RouteDebug.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Home\About.cshtml">
@@ -61,5 +79,20 @@
     <Content Update="Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bower_components\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Starbender.Romi.Web.Service\wwwroot\images\banner1.svg" Link="wwwroot\images\banner1.svg" />
+    <None Include="..\Starbender.Romi.Web.Service\wwwroot\images\banner2.svg" Link="wwwroot\images\banner2.svg" />
+    <None Include="..\Starbender.Romi.Web.Service\wwwroot\images\banner3.svg" Link="wwwroot\images\banner3.svg" />
+    <None Include="..\Starbender.Romi.Web.Service\wwwroot\js\site.js" Link="wwwroot\js\site.js" />
+    <None Include="..\Starbender.Romi.Web.Service\wwwroot\js\site.min.js" Link="wwwroot\js\site.min.js" />
   </ItemGroup>
 </Project>

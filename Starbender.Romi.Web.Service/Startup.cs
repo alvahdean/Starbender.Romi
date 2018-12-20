@@ -22,6 +22,13 @@
 
     using Starbender.Romi.Data;
     using Starbender.Romi.Services.Configuration;
+    using Starbender.Romi.Web.UI;
+    using Starbender.Romi.Web.UI.Controllers;
+    using Starbender.Romi.Web.UI.Home;
+    using Starbender.Romi.Web.UI.Home.Pages;
+    using Starbender.Romi.Web.UI.Models;
+    using Starbender.Romi.Web.UI.Views;
+    using Starbender.Romi.Web.UI.Views.Home;
 
     /// <summary>
     /// Web Service Startup class
@@ -109,12 +116,11 @@
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            UI.Startup.Configure(app,env);
+
+            //app.UseMvc(
+            //    routes => { routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}"); });
+
         }
     }
 }
