@@ -11,13 +11,13 @@ namespace Starbender.Romi.Services.Administration
         ServiceResult<RomiSettings> GetSettings();
         ServiceResult<RomiSettings> UpdateSettings(RomiSettings settings);
 
-        ServiceResult<SupportedDevice> AddDevice(SupportedInterface deviceInterface, SupportedDevice device);
-        ServiceResult RemoveDevice(SupportedDevice device);
-        ServiceResult<IEnumerable<SupportedDevice>> GetDevices();
+        ServiceResult<RegisteredDevice> AddDevice(RegisteredInterface deviceInterface, RegisteredDevice device);
+        ServiceResult RemoveDevice(RegisteredDevice device);
+        ServiceResult<IEnumerable<RegisteredDevice>> GetDevices();
 
-        ServiceResult<SupportedInterface> AddInterface(SupportedInterface deviceInterface);
-        ServiceResult RemoveDevice(SupportedInterface deviceInterface);
-        ServiceResult<IEnumerable<SupportedInterface>> GetInterfaces();
+        ServiceResult<RegisteredInterface> AddInterface(RegisteredInterface deviceInterface);
+        ServiceResult RemoveDevice(RegisteredInterface deviceInterface);
+        ServiceResult<IEnumerable<RegisteredInterface>> GetInterfaces();
 
         ServiceResult<ApplicationIdentity> AddUser(ApplicationIdentity user);
         ServiceResult RemoveUser(ApplicationIdentity user);

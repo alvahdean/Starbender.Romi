@@ -1,0 +1,22 @@
+{
+  "name": "qrcode-js-package",
+  "version": "1.0.4",
+  "description": "Cross-browser QRCode generator for javascript",
+  "main": "qrcode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidshimjs/qrcodejs.git"
+  },
+  "keywords": [
+    "QRCode"
+  ],
+  "author": "davidshimjs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidshimjs/qrcodejs/issues"
+  },
+  "homepage": "https://github.com/davidshimjs/qrcodejs#readme"
+}

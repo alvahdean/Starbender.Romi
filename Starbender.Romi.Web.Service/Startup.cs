@@ -63,12 +63,12 @@
 
             RomiSettings = DependencyInjection.LoadSettings(Configuration);
 
-            services.AddDbContext<ApplicationDbContext>(
+            services.AddDbContext<RomiDbContext>(
                 options => options.UseSqlite(
                     RomiSettings.ConnectionString,
                     builder => builder.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
 
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<RomiDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -91,7 +91,7 @@
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var context = serviceScope.ServiceProvider.GetRequiredService<RomiDbContext>();
                 context.Database.EnsureCreated();
             }
 
