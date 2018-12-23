@@ -23,7 +23,7 @@
     using Starbender.Romi.Data;
     using Starbender.Romi.Data.Models;
     using Starbender.Romi.Services.Configuration;
-
+    using Swashbuckle.AspNetCore.Swagger;
     using RomiSettings = Starbender.Romi.Services.Configuration.RomiSettings;
 
     /// <summary>
@@ -64,7 +64,12 @@
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
             services.AddRomi(Configuration);
-            //_apiStartup.ConfigureServices(services);
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new Info { Title = "ROMI API", Version = "v1" });
+                });
+
         }
 
         /// <summary>
@@ -99,6 +104,16 @@
                             name: "apiDefault",
                             template: "api/{controller}/{action}/{id?}");
                     });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ROMI API V1");
+                });
         }
     }
 }

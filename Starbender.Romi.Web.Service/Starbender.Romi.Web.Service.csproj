@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="NLog.Schema" Version="4.5.11" />
     <PackageReference Include="RestSharp.NetCore" Version="105.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
