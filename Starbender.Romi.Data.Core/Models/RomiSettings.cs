@@ -45,10 +45,5 @@ namespace Starbender.Romi.Data.Models
         /// The directory where application data is stored
         /// </summary>
         public string DataPath { get; set; }
-
-        /// <summary>
-        /// Registry of devices and interfaces for the service
-        /// </summary>
-        public DeviceRegistry DeviceRegistry { get; set; }
     }
 }

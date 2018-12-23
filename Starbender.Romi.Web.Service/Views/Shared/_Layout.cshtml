@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <partial name="~/Views/Shared/_PageHead.cshtml" />
+    <environment names="Development">
+        <link rel="stylesheet" href="/css/site.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/slate/bootstrap.css">
+    </environment>
+
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="/css/site.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/slate/bootstrap.min.css">
+    </environment>
+    @RenderSection("head", required: false)
+</head>
+
+<body>
+@* Menu *@
+<partial name="~/Views/Shared/_MenuTop.cshtml" />
+
+@*Page Content*@
+<div class="row">
+<div class="col-3">
+    <partial name="~/Views/Shared/_Sidebar.cshtml" />
+</div>
+
+<div class="body-content col-9">
+    @RenderBody()
+</div>
+</div>
+@*Footer*@
+<footer>
+    @RenderSection("footer", required: false)
+    <partial name="~/Views/Shared/_Footer.cshtml" />
+</footer>
+
+@*Scripts*@
+<partial name="~/Views/Shared/_Scripts.cshtml" />
+@RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+
