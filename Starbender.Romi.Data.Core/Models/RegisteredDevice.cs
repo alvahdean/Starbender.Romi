@@ -5,7 +5,7 @@
     using System.Text;
 
 
-    public class SupportedDevice
+    public class RegisteredDevice
     {
         /// <summary>
         /// Primary Key

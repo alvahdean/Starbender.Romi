@@ -18,11 +18,11 @@
         /// <summary>
         /// Supported interfaces
         /// </summary>
-        public List<SupportedInterface> SupportedInterfaces { get; set; }
+        public List<RegisteredInterface> Interfaces { get; set; }
 
         /// <summary>
         /// Supported devices
         /// </summary>
-        public List<SupportedDevice> SupportedDevices { get; set; }
+        public List<RegisteredDevice> Devices { get; set; }
     }
 }

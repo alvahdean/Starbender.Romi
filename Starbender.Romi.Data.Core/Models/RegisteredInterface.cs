@@ -7,7 +7,7 @@
     /// <summary>
     /// Class containing registration information for a device interface to be supported by the web service
     /// </summary>
-    public class SupportedInterface
+    public class RegisteredInterface
     {
         /// <summary>
         /// Primary Key
