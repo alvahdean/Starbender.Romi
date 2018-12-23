@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Nito.AsyncEx;
+using Nito.AsyncEx.Synchronous;
 
 namespace Starbender.Romi.Services.Configuration
 {
     using System.IO;
+    using System.Linq;
+    using System.Net;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,6 +18,7 @@ namespace Starbender.Romi.Services.Configuration
     using Microsoft.Extensions.Logging;
 
     using NLog;
+    using NLog.Common;
     using NLog.Config;
     using NLog.Extensions.Logging;
     using NLog.Layouts;
@@ -23,20 +28,22 @@ namespace Starbender.Romi.Services.Configuration
 
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-    public static class ServiceExtensions
+    public static class AppStartup
     {
-        public static void AddRomi(this IServiceCollection services,IConfiguration configuration)
+        private static string _connectionString = "";
+        public static IServiceCollection AddRomi(this IServiceCollection services, IConfiguration configuration)
         {
-            var settings = new RomiSettings();
+            _connectionString = configuration.GetConnectionString("Romi") ?? "Data Source=/apps/romi/data/romi.db";
 
-            configuration.Bind("RomiSettings", settings);
+            var dbOptions = new DbContextOptionsBuilder<RomiDbContext>().UseSqlite(
+                _connectionString,
+                builder => builder.MigrationsAssembly(typeof(RomiDbContext).Assembly.FullName));
 
-            ConfigurePaths(settings);
-            ConfigureNLog(settings);
+            var dbContext = new RomiDbContext(dbOptions.Options);
 
-            services.AddSingleton<IRomiSettings>(settings);
+            services.AddSingleton(dbContext);
 
-            ConfigureNLog(settings);
+            services.AddSingleton<IRomiSettings>(RomiSettings.GetDefault());
 
             services.AddLogging(
                 builder =>
@@ -48,26 +55,48 @@ namespace Starbender.Romi.Services.Configuration
                                         CaptureMessageTemplates = true,
                                         CaptureMessageProperties = true
                                     })
-                            .AddConsole()
-                            .AddDebug();
+                            .AddConsole().AddDebug();
                     });
 
-            services.AddDbContext<RomiDbContext>(
-                options => options.UseSqlite(
-                    $"DataSource={settings.DataPath}/romi.db",
-                    builder => builder.MigrationsAssembly(typeof(RomiDbContext).Assembly.FullName)));
+            return services;
         }
 
-        public static void UseRomi(this IApplicationBuilder app)
+        public static IApplicationBuilder UseRomi(this IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            var dbContext = app.ApplicationServices.GetService<RomiDbContext>();
+
+            dbContext.Database.Migrate();
+
+            var appHost = dbContext.ApplicationHosts.Find(new object[] { 1 });
+
+            if (appHost == null)
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<RomiDbContext>();
-                context.Database.EnsureCreated();
+                appHost = new RomiApplicationHost() { Id = 1, Name = "." };
             }
+
+            if (appHost.Settings == null)
+            {
+                appHost.Settings = RomiSettings.GetDefault();
+            }
+
+            dbContext.SaveChanges();
+
+            var cfg = appHost.Settings;
+            ConfigurePaths(cfg);
+            ConfigureNLog(cfg);
+
+            var svcCfg = app.ApplicationServices.GetService<IRomiSettings>();
+            svcCfg.ApiRoot = cfg.ApiRoot;
+            svcCfg.ApplicationPath = cfg.ApplicationPath;
+            svcCfg.LogPath = cfg.LogPath;
+            svcCfg.DataPath = cfg.DataPath;
+            svcCfg.ServiceHost = cfg.ServiceHost;
+            svcCfg.ApiVersion = cfg.ApiVersion;
+            svcCfg.ServicePort = cfg.ServicePort;
+            return app;
         }
 
-        private static void ConfigurePaths(RomiSettings settings)
+        private static void ConfigurePaths(Data.Models.RomiSettings settings)
         {
             if (string.IsNullOrWhiteSpace(settings.ApplicationPath))
                 settings.ApplicationPath = "/apps/romi";
@@ -100,7 +129,7 @@ namespace Starbender.Romi.Services.Configuration
 
         }
 
-        private static void ConfigureNLog(RomiSettings settings)
+        private static void ConfigureNLog(Data.Models.RomiSettings settings)
         {
             var logConfig = new XmlLoggingConfiguration("NLog.config");
 

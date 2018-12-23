@@ -11,8 +11,10 @@
 
     using Starbender.Romi.Data;
     using Starbender.Romi.Data.Models;
+    using Starbender.Romi.Services.Configuration;
     using Starbender.Romi.Web.Service.Models;
 
+    using RomiSettings = Starbender.Romi.Data.Models.RomiSettings;
 
     public class RegistryController : ApiController
     {
@@ -43,6 +45,12 @@
 
         public async Task<RomiResponse<RomiSettings>> LocalSettings()
         {
+            var appHost=_context.ApplicationHosts.Where(t=>t.Name==".").SingleOrDefault();
+            if (appHost.Settings == null)
+            {
+                //appHost.Settings = RomiSettings.GetDefault();
+            }
+            _context.Settings.ToAsyncEnumerable().ToList();
             var settings = await _context.Settings.ToAsyncEnumerable().ToList();
             var data = settings.FirstOrDefault();
             return new RomiResponse<RomiSettings>() { Data = data };

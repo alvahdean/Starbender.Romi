@@ -31,8 +31,6 @@
     /// </summary>
     public class Startup
     {
-        // private Starbender.Romi.Web.Api.Startup _apiStartup;
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -63,12 +61,18 @@
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
-            services.AddRomi(Configuration);
+            
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new Info { Title = "ROMI API", Version = "v1" });
                 });
+
+            services.AddRomi(Configuration);
+            //services.AddDbContext<RomiDbContext>(
+            //    options => new DbContextOptionsBuilder().UseSqlite(
+            //        Configuration.GetConnectionString("Romi"),
+            //        builder => builder.MigrationsAssembly(typeof(RomiDbContext).Assembly.FullName)));
 
         }
 
@@ -95,8 +99,9 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            //app.UseRomi();
-            //_apiStartup.Configure(app);
+
+            app.UseRomi();
+
             app.UseMvc(
                 routes =>
                     {

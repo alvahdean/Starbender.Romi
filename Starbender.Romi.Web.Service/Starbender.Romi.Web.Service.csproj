@@ -77,13 +77,7 @@
     <Content Update="Views\Shared\_Scripts.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Shared\_StyleBootswatch_Darkly.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\Shared\_MenuTop.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Shared\_StyleBootstrap4.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_PageHead.cshtml">
@@ -100,9 +94,6 @@
     <Content Update="Views\Shared\_LoginPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\Shared\_Sidebar3.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_Sidebar.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
@@ -132,7 +123,6 @@
     <Folder Include="wwwroot\lib\qrcode.js\" />
     <Folder Include="wwwroot\lib\tooltip.js\dist\esm\" />
     <Folder Include="wwwroot\lib\tooltip.js\dist\umd\" />
-    <Folder Include="wwwroot\scss\darkly\" />
   </ItemGroup>
 
 </Project>
