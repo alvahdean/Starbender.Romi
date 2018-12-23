@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <partial name="~/Views/Shared/_PageHead.cshtml" />
+    <environment names="Development">
+        <link rel="stylesheet" href="/css/site.css">
+        <link rel="stylesheet" href="/css/theme.css">
+    </environment>
+
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="/css/site.min.css">
+        <link rel="stylesheet" href="/css/theme.min.css">
+    </environment>
+    @RenderSection("head", required: false)
+</head>
+
+<body>
+@* Menu *@
+<partial name="~/Views/Shared/_MenuTop.cshtml" />
+
+@*Page Content*@
+<div class="row">
+<div class="col-3">
+    <partial name="~/Views/Shared/_Sidebar.cshtml" />
+</div>
+
+<div class="body-content col-9">
+    @RenderBody()
+</div>
+</div>
+@*Footer*@
+<footer>
+    @RenderSection("footer", required: false)
+    <partial name="~/Views/Shared/_Footer.cshtml" />
+</footer>
+
+@*Scripts*@
+<partial name="~/Views/Shared/_Scripts.cshtml" />
+@RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+

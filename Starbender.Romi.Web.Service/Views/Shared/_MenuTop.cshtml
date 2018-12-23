@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Starbender.Romi.Data.Models
+@inject SignInManager<RomiUser> SignInManager
+@inject UserManager<RomiUser> UserManager
+
+<div id="menuMain" class="body-content menu-top bg-light">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Romi</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/About">About ROMI</a>
+                <a class="dropdown-item" href="/Contact">Contacts</a>
+            </div>
+        </li>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                <div class="dropdown-menu">
+                    <a href="~/Routes" class="dropdown-item">Site Routes</a>
+                    <a href="~/Configuration" class="dropdown-item">Configuration</a>
+                </div>
+            </li>
+        }
+        <partial name="_LoginPartialRazor.cshtml" />
+    </ul>
+</div>
+

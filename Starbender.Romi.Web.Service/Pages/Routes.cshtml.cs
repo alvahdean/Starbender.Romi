@@ -9,14 +9,21 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace Starbender.Romi.Web.Service.Pages
 {
-    public class RoutesModel : PageModel
+    using System.Data;
+
+    public class RoutesListModel : PageModel
     {
+
         private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
 
-        public RoutesModel(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
+        public RoutesListModel(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
         {
             this._actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
         }
+
+        public string Title { get; set; } = "Web Service Routes";
+
+        public string Author { get; set; } = "Dean Fuqua";
 
         public List<RouteInfo> Routes { get; set; }
 

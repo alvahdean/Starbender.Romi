@@ -21,20 +21,18 @@
     using NLog.Extensions.Logging;
 
     using Starbender.Romi.Data;
+    using Starbender.Romi.Data.Models;
     using Starbender.Romi.Services.Configuration;
-    using Starbender.Romi.Web.UI;
-    using Starbender.Romi.Web.UI.Controllers;
-    using Starbender.Romi.Web.UI.Home;
-    using Starbender.Romi.Web.UI.Home.Pages;
-    using Starbender.Romi.Web.UI.Models;
-    using Starbender.Romi.Web.UI.Views;
-    using Starbender.Romi.Web.UI.Views.Home;
+
+    using RomiSettings = Starbender.Romi.Services.Configuration.RomiSettings;
 
     /// <summary>
     /// Web Service Startup class
     /// </summary>
     public class Startup
     {
+        // private Starbender.Romi.Web.Api.Startup _apiStartup;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -42,10 +40,10 @@
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            // _apiStartup=new Starbender.Romi.Web.Api.Startup();
         }
 
         public IConfiguration Configuration { get; }
-        public RomiSettings RomiSettings { get; private set; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -53,24 +51,20 @@
         /// <param name="services">
         /// The services collection to be configured
         /// </param>
-        [SuppressMessage(
-            "StyleCop.CSharp.ReadabilityRules",
-            "SA1101:PrefixLocalCallsWithThis",
-            Justification = "Reviewed. Suppression is OK here.")]
         public void ConfigureServices(IServiceCollection services)
         {
-            DependencyInjection.Configure(Configuration, services);
-
-            RomiSettings = DependencyInjection.LoadSettings(Configuration);
-
-            services.AddDbContext<RomiDbContext>(
-                options => options.UseSqlite(
-                    RomiSettings.ConnectionString,
-                    builder => builder.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
-
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<RomiDbContext>();
+            services.AddDefaultIdentity<RomiUser>().AddEntityFrameworkStores<RomiDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.Configure<CookiePolicyOptions>(options =>
+                {
+                    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
+            services.AddRomi(Configuration);
+            //_apiStartup.ConfigureServices(services);
         }
 
         /// <summary>
@@ -80,25 +74,6 @@
         /// <param name="env">The hosting environment</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if(!string.IsNullOrWhiteSpace(RomiSettings.ApplicationPath))
-            {
-                Directory.CreateDirectory(RomiSettings.ApplicationPath);
-            }
-            else
-            {
-                throw new InvalidDataException("No ROMI application directory configured in AppSettings!");
-            }
-
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<RomiDbContext>();
-                context.Database.EnsureCreated();
-            }
-
-            Directory.CreateDirectory(RomiSettings.LogPath);
-            Directory.CreateDirectory(RomiSettings.DataPath);
-            Directory.CreateDirectory(RomiSettings+"/bin");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -106,7 +81,7 @@
             }
             else
             {
-                app.UseExceptionHandler("/Error/Index");
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
@@ -115,12 +90,15 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
-            UI.Startup.Configure(app,env);
-
-            //app.UseMvc(
-            //    routes => { routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}"); });
-
+            //app.UseRomi();
+            //_apiStartup.Configure(app);
+            app.UseMvc(
+                routes =>
+                    {
+                        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}").MapRoute(
+                            name: "apiDefault",
+                            template: "api/{controller}/{action}/{id?}");
+                    });
         }
     }
 }

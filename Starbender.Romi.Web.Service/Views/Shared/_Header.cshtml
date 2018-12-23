@@ -1,0 +1,41 @@
+﻿<div class="container clearfix">
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+
+                <a class="navbar-brand" href="/">ROMI</a>
+                <ul class="nav navbar-nav">
+                    <!-- Top level site menu items -->
+                    <li><a href="/Home/About.cshtml">About</a></li>
+                    <li><a href="/Home/Contact.cshtml">Contact</a></li>
+
+                    <!-- Top level actions items -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Context Action 1</a></li>
+                            <li><a href="#">Context Action 2</a></li>
+                            <li><a href="#">Context Action 3</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @await Html.PartialAsync("_LoginPartial")
+                        </ul>
+                    </li>
+                </ul>
+
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
+            </div>
+            
+        </div>
+
+    </nav>
+</div>

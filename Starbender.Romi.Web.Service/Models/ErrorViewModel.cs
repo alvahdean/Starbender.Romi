@@ -1,6 +1,6 @@
 using System;
 
-namespace Starbender.Romi.Web.UI.Models
+namespace Starbender.Romi.Web.Service.Models
 {
     public class ErrorViewModel
     {

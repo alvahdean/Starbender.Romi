@@ -1,0 +1,23 @@
+﻿@page
+@model Starbender.Romi.Web.Service.Models.ErrorViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+<h3>An error has occured!</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Setting</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>RequestId</td>
+            <td>@Model.ShowRequestId ? Model.RequestId : "[Not shown]"</td>
+        </tr>
+    </tbody>
+</table>
+</body>

@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Identity
+@using Starbender.Romi.Data.Models
+@inject SignInManager<RomiUser> SignInManager
+@inject UserManager<RomiUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item dropdown navbar-right">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)</a>
+        <div class="dropdown-menu">
+            <a href="/Identity/Account/Manage/Index" class="dropdown-item">My Account</a>
+            <a href="/Home/Signout" class="dropdown-item">Logout</a>
+        </div>
+    </li>
+}
+else
+{
+    <li class="nav-item navbar-right">
+        <a class="nav-link" href="/Identity/Account/Register">Register</a>
+    </li>
+    <li class="nav-item navbar-right">
+        <a class="nav-link" href="/Identity/Account/Login">Login</a>
+    </li>
+}
