@@ -4,13 +4,12 @@ using System.Text;
 
 namespace Starbender.Romi.Data.Models
 {
-    public class RomiSettings
+    public class RomiSettings : IRomiSettings
     {
-
         /// <summary>
         /// Primary Key
         /// </summary>
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Host part of the service Url
