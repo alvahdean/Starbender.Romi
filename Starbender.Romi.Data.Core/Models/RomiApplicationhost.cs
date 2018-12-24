@@ -21,14 +21,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Settings for the Registry
+        /// Settings for the Host
         /// </summary>
         public RomiSettings Settings { get; set; }
-
-        /// <summary>
-        /// Supported interfaces
-        /// </summary>
-        public List<RegisteredInterface> Interfaces { get; set; }
 
         /// <summary>
         /// Supported devices

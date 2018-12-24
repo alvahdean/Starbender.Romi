@@ -13,11 +13,24 @@ namespace Starbender.Romi.Services.Configuration
 
     public interface IConfigurationService
     {
-        Task<List<RomiApplicationHost>> GetAppHosts();
 
-        Task<RomiApplicationHost> GetLocalAppHost();
+        Task<RomiApplicationHost> CreateApplicationHost(string name, IRomiSettings settings = null);
+        Task<List<RomiApplicationHost>> GetApplicationHosts();
+        Task<RomiApplicationHost> GetLocalApplicationHost();
+        Task UpdateApplicationHost(RomiApplicationHost host);
+        Task DeleteApplicationHost(RomiApplicationHost host);
+        Task DeleteApplicationHost(string name);
 
-        void Save();
+        Task<IRomiSettings> GetApplicationSettings(RomiApplicationHost host = null);
+        Task UpdateApplicationSettings(IRomiSettings settings, RomiApplicationHost host = null);
+
+        
+        Task<List<RegisteredInterface>> AddRegisteredInterface(string interfaceName, RomiApplicationHost host);
+        Task<List<RegisteredInterface>> GetRegisteredInterfaces(RomiApplicationHost host = null);
+        Task<List<RegisteredInterface>> DeleteRegisteredInterface(string interfaceName, RomiApplicationHost host = null);
+        Task<List<RegisteredInterface>> DeleteRegisteredInterface(RegisteredInterface deviceInterface, RomiApplicationHost host = null);
+
+        Task<List<RegisteredDevice>> GetRegisteredDevices(RomiApplicationHost host = null, RegisteredInterface deviceInterface=null);
 
     }
 }

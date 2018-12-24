@@ -41,7 +41,7 @@ namespace Starbender.Romi.Services.Configuration
 
             var dbContext = new RomiDbContext(dbOptions.Options);
 
-            services.AddSingleton(dbContext);
+            services.AddScoped(_ => dbContext);
 
             services.AddSingleton<IRomiSettings>(RomiSettings.GetDefault());
 

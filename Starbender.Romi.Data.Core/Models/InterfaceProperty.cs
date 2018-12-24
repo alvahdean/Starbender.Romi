@@ -5,7 +5,7 @@
     using System.Text;
 
 
-    public class RegisteredDevice
+    public class InterfaceProperty
     {
         /// <summary>
         /// Primary Key
@@ -13,17 +13,12 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// The application host that manages this device
-        /// </summary>
-        public RomiApplicationHost ApplicationHost { get; set; }
-
-        /// <summary>
-        /// The device interface that this device implements
+        /// Gets or sets the interface that implements this property
         /// </summary>
         public RegisteredInterface Interface { get; set; }
 
         /// <summary>
-        /// Device Name
+        /// Gets or sets the property name
         /// </summary>
         public string Name { get; set; }
     }
