@@ -10,11 +10,11 @@
     public class RegisteredInterface
     {
         /// <summary>
-        /// Constructor
+        /// Primary Key
         /// </summary>
         public RegisteredInterface()
         {
-            Devices=new List<RegisteredDevice>();
+            Devices = new List<RegisteredDevice>();
         }
 
         /// <summary>
@@ -31,10 +31,13 @@
         /// Device interface version
         /// </summary>
         public int Version { get; set; }
+    }
+}
+
+        /// <summary>
+        /// Constructor
 
         /// <summary>
         /// List of devices that implement this interface
         /// </summary>
         public List<RegisteredDevice> Devices { get; set; }
-    }
-}

@@ -35,13 +35,7 @@ namespace Starbender.Romi.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // todo: define FKs as required
-            // todo: create unique keys as required
-
             builder.Entity<RomiApplicationHost>().HasData(new RomiApplicationHost { Id = 1, Name = "." });
-
-            // todo: write seeding code
         }
     }
 }
