@@ -1,36 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Starbender.Romi.Services.Configuration
 {
+    using Starbender.Romi.Data.Models;
     using System.Threading.Tasks;
 
-    using Microsoft.EntityFrameworkCore.Diagnostics;
-
-    using Starbender.Romi.Data;
-    using Starbender.Romi.Data.Models;
+    using Microsoft.Extensions.Configuration;
 
     public interface IConfigurationService
     {
+        IConfiguration AppConfig { get; }
+        HostSettings Settings { get; }
 
-        Task<RomiApplicationHost> CreateApplicationHost(string name, IRomiSettings settings = null);
-        Task<List<RomiApplicationHost>> GetApplicationHosts();
-        Task<RomiApplicationHost> GetLocalApplicationHost();
+        // todo: Move the modification methods to the Administration Service
+        Task<RomiApplicationHost> RegisterApplicationHost(string name, HostSettings settings);
         Task UpdateApplicationHost(RomiApplicationHost host);
         Task DeleteApplicationHost(RomiApplicationHost host);
         Task DeleteApplicationHost(string name);
+        Task<TInterface> RegisterInterface<TInterface>() where TInterface : RegisteredInterface, new();
+        Task DeleteInterface(RegisteredInterface deviceInterface);
+        Task<TDevice> RegisterDevice<TDevice>() where TDevice : RegisteredDevice, new();
+        Task DeleteDevice(RegisteredDevice deviceInterface);
 
-        Task<IRomiSettings> GetApplicationSettings(RomiApplicationHost host = null);
-        Task UpdateApplicationSettings(IRomiSettings settings, RomiApplicationHost host = null);
-
-        
-        Task<List<RegisteredInterface>> AddRegisteredInterface(string interfaceName, RomiApplicationHost host);
-        Task<List<RegisteredInterface>> GetRegisteredInterfaces(RomiApplicationHost host = null);
-        Task<List<RegisteredInterface>> DeleteRegisteredInterface(string interfaceName, RomiApplicationHost host = null);
-        Task<List<RegisteredInterface>> DeleteRegisteredInterface(RegisteredInterface deviceInterface, RomiApplicationHost host = null);
-
-        Task<List<RegisteredDevice>> GetRegisteredDevices(RomiApplicationHost host = null, RegisteredInterface deviceInterface=null);
+        Task<RomiApplicationHost> GetHost(string name);
+        Task<List<RomiApplicationHost>> GetHosts();
+        Task<RomiApplicationHost> GetLocalHost();
+        Task<List<RegisteredInterface>> GetInterfaces();
+        Task<TInterface> GetInterface<TInterface>() where TInterface : RegisteredInterface, new();
+        Task<List<RegisteredDevice>> GetDevices(RomiApplicationHost host = null, RegisteredInterface deviceInterface = null);
+        Task<TDevice> GetDevice<TDevice>(RomiApplicationHost host = null) where TDevice : RegisteredDevice, new();
 
     }
 }
+

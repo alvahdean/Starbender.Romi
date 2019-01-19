@@ -29,5 +29,11 @@
         /// Supported devices
         /// </summary>
         public List<RegisteredDevice> Devices { get; set; }
+
+        /// <summary>
+        /// Supported devices
+        /// </summary>
+        public List<SensorPoco> Sensors { get; set; }
+
     }
 }

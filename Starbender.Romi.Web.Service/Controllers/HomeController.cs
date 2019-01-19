@@ -24,19 +24,6 @@
             return this.View();
         }
 
-        public async Task<IActionResult> Signout()
-        {
-            await _signInManager.SignOutAsync();
-            foreach (var cookieKey in Request.Cookies.Keys)
-            {
-                if (cookieKey == ".AspNetCore.Identity.Application" || cookieKey.StartsWith(".AspNetCore.Antiforgery."))
-                {
-                    Response.Cookies.Delete(cookieKey);
-                }
-            }
-
-            return this.Redirect("/Identity/Account/Logout");
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
