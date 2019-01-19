@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Nito.AsyncEx.Tasks" Version="1.1.0" />
     <PackageReference Include="NLog" Version="4.5.11" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.3.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
     <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
     <PackageReference Include="Starbender.Core" Version="1.0.1" />
   </ItemGroup>

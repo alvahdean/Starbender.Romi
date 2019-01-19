@@ -1,4 +1,4 @@
-﻿namespace Starbender.Services.Gpio.WiringPi.Model
+﻿namespace Starbender.Services.Gpio.WiringPi.Models
 {
     using Unosquare.RaspberryIO.Abstractions;
     using Unosquare.WiringPi;
@@ -9,7 +9,7 @@
     /// Full pin reference available here:
     /// http://pinout.xyz/pinout/pin31_gpio6 and  http://wiringpi.com/pins/.
     /// </summary>
-    public sealed class GpioPinModel : IGpioPinModel
+    public class GpioPinModel : IGpioPinModel
     {
         public BcmPin BcmPin { get; set; }
 

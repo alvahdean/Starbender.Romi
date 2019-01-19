@@ -3,7 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
-    using Starbender.Services.Gpio.WiringPi.Model;
+    using Starbender.Services.Gpio.WiringPi.Models;
 
     using Unosquare.RaspberryIO.Abstractions;
     using Unosquare.WiringPi;
@@ -22,7 +22,9 @@
 
         public async Task<IGpioPinModel> GetPinConfiguration(int bcmPinNumber)
         {
-            throw new NotImplementedException();
+            var result=new GpioPinModel();
+
+            return result;
         }
 
         public async Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumbe, IGpioPinModel pinConfiguration)

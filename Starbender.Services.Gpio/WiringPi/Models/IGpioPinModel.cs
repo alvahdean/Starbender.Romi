@@ -1,4 +1,4 @@
-﻿namespace Starbender.Services.Gpio.WiringPi.Model
+﻿namespace Starbender.Services.Gpio.WiringPi.Models
 {
     using Unosquare.RaspberryIO.Abstractions;
     using Unosquare.WiringPi;

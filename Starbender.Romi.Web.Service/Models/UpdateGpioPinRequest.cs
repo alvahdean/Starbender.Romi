@@ -1,6 +1,6 @@
 ﻿namespace Starbender.Romi.Web.Service.Models
 {
-    public sealed class GpioPinResponse 
+    public sealed class UpdateGpioPinRequest
     {
         public int BcmPin { get; set; }
 

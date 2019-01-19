@@ -3,7 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
-    using Starbender.Services.Gpio.WiringPi.Model;
+    using Starbender.Services.Gpio.WiringPi.Models;
 
     using Unosquare.RaspberryIO.Abstractions;
     using Unosquare.WiringPi;
@@ -16,7 +16,7 @@
 
         Task<IGpioPinModel> GetPinConfiguration(int bcmPinNumber);
 
-        Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumbe, IGpioPinModel pinConfiguration);
+        Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumber, IGpioPinModel pinConfiguration);
 
         Task<bool> HasCapability(IGpioPinModel pin, PinCapability capability);
 

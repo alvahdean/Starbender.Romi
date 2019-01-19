@@ -16,15 +16,15 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="2.2.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
     <PackageReference Include="NLog.Schema" Version="4.5.11" />
     <PackageReference Include="NodaTime" Version="2.4.4" />
     <PackageReference Include="RestSharp.NetCore" Version="105.2.3" />
@@ -41,6 +41,7 @@
     <ProjectReference Include="..\Starbender.Romi.Services.Configuration\Starbender.Romi.Services.Configuration.csproj" />
     <ProjectReference Include="..\Starbender.Romi.Services.Device\Starbender.Romi.Services.Device.csproj" />
     <ProjectReference Include="..\Starbender.Romi.Services.Security\Starbender.Romi.Services.Security.csproj" />
+    <ProjectReference Include="..\Starbender.Services.Gpio\Starbender.Services.Gpio.csproj" />
   </ItemGroup>
 
   <ItemGroup>

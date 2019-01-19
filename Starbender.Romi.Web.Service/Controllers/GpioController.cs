@@ -24,6 +24,7 @@
     using Starbender.Romi.Services.Device;
     using Starbender.Romi.Services.Configuration;
     using Starbender.Romi.Web.Service.Models;
+    using Starbender.Services.Gpio.WiringPi;
 
     using RomiSettings = Starbender.Romi.Data.Models.RomiSettings;
 
@@ -35,95 +36,27 @@
     {
         private readonly IConfigurationService _config;
 
-        private readonly IDeviceService _service;
+        private readonly IGpioService _gpioService;
 
         private readonly ILogger _logger;
 
         private readonly IMapper _mapper;
 
-        public GpioController(IConfigurationService config, IDeviceService service, ILogger<SensorController> logger, IMapper mapper)
+        public GpioController(IConfigurationService config, IGpioService gpioService, ILogger<SensorController> logger, IMapper mapper)
         {
             this._config = config;
-            this._service = service;
+            this._gpioService = gpioService;
             this._logger = logger;
             this._mapper = mapper;
         }
-        [Route("register/{typeName}")]
-        [HttpPost,HttpGet]
-        public async Task<SensorInfo> RegisterSensor(string typeName)
-        {
-            var sensor = await this._service.Register(typeName);
 
-            return sensor;
-        }
-
-        //[Route("register/{typeName}")]
-        //[HttpPost]
-        //public async Task<SensorInfo> RegisterSensorDriver(string typeName, [FromBody] IDeviceDriverFile driver)
-        //{
-        //    var sensor = await this._service.Register(typeName);
-
-        //    // full path to file in temp location
-        //    var filePath = Path.GetTempFileName();
-        //    if (driver!=null && driver.Length > 0)
-        //    {
-        //        using (var stream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await driver.CopyToAsync(stream,CancellationToken.None);
-        //        }
-        //    }
-
-        //    return sensor;
-        //}
-
+        [Route("{bcmPinNumber}")]
         [HttpGet]
-        public async Task<IEnumerable<SensorInfo>> GetSensors(CancellationToken cancelToken)
+        public async Task<IActionResult> RegisterSensor(int bcmPinNumber)
         {
-            return await this._service.GetSensors();
-        }
-
-        [HttpDelete]
-        [Route("{id}")]
-        public async Task DeleteSensor(int id)
-        {
-            var sensor= await this._service.GetSensor(id);
-            if (sensor != null)
-            {
-                this._service.DeleteSensor(sensor);
-            }
-        }
-
-        [HttpPut]
-        public void UpdateSensor([FromBody] SensorInfo sensor)
-        {
-            this._service.UpdateSensor(sensor);
-        }
-
-        [Route("{id}")]
-        [HttpGet]
-        public async Task<IEnumerable<string>> GetSupportedTypes(int id, CancellationToken cancelToken)
-        {
-            var sensor = await this._service.GetSensor(id);
-            var result = sensor.SupportedTypes;
-            return result;
-        }
-
-        [Route("{id}/{sensorType}")]
-        [HttpGet]
-        public async Task<IEnumerable<string>> GetSupportedNames(int id, string sensorType, CancellationToken cancelToken)
-        {
-            var sensor = await _service.GetSensor(id);
-            var result = sensor.SupportedNames(sensorType);
-            return result;
-        }
-
-        [Route("{id}/{sensorType}/{sensorName}")]
-        [HttpGet]
-        public async Task<SensorResult> Read(int id, string sensorType, string sensorName, CancellationToken cancelToken)
-        {
-            var sensor = await this._service.GetSensor(id);
-            var result = await sensor.ReadAsync(sensorType, sensorName);
-            return result;
+            var pinState = await _gpioService.GetPinConfiguration(bcmPinNumber);
+            var result = this._mapper.Map<GpioPinResponse>(pinState);
+            return new JsonResult(result);
         }
     }
 }
