@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Starbender.Romi.Services.Device
+﻿namespace Starbender.Romi.Services.Device
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -11,9 +10,9 @@ namespace Starbender.Romi.Services.Device
 
     public class Sensor : SensorInfo
     {
-        protected readonly List<string> _supportedTypes = new List<string>();
+        protected readonly Dictionary<string, List<string>> _supportedNames = new Dictionary<string, List<string>>();
 
-        protected readonly Dictionary<string,List<string>> _supportedNames = new Dictionary<string, List<string>>();
+        protected readonly List<string> _supportedTypes = new List<string>();
 
         private readonly IMapper _mapper;
 
@@ -23,7 +22,8 @@ namespace Starbender.Romi.Services.Device
             this._mapper = mapper;
         }
 
-        internal Sensor(SensorInfo info, IMapper mapper) : this(mapper)
+        internal Sensor(SensorInfo info, IMapper mapper)
+            : this(mapper)
         {
             if (info == null)
             {
@@ -41,22 +41,7 @@ namespace Starbender.Romi.Services.Device
             TypeName = info.TypeName;
         }
 
-        public virtual bool Supports(string sensorType, string sensorName)
-        {
-            return this._supportedTypes.Contains(sensorType) && this._supportedNames[sensorType].Contains(sensorName);
-        }
-
         public IEnumerable<string> SupportedTypes => this._supportedTypes;
-
-        public IEnumerable<string> SupportedNames(string sensorType) => this._supportedNames[sensorType];
-
-        protected void EnsureSupported(string sensorType, string sensorName)
-        {
-            if (!Supports(sensorType, sensorName))
-            {
-                throw new NotSupportedException($"Sensor does not support {sensorType}:{sensorName}");
-            }
-        }
 
         public virtual SensorResult Read(string sensorType, string sensorName)
         {
@@ -68,6 +53,21 @@ namespace Starbender.Romi.Services.Device
         public virtual async Task<SensorResult> ReadAsync(string sensorType, string sensorName)
         {
             return await Task.Run(() => Read(sensorName, sensorType));
+        }
+
+        public IEnumerable<string> SupportedNames(string sensorType) => this._supportedNames[sensorType];
+
+        public virtual bool Supports(string sensorType, string sensorName)
+        {
+            return this._supportedTypes.Contains(sensorType) && this._supportedNames[sensorType].Contains(sensorName);
+        }
+
+        protected void EnsureSupported(string sensorType, string sensorName)
+        {
+            if (!Supports(sensorType, sensorName))
+            {
+                throw new NotSupportedException($"Sensor does not support {sensorType}:{sensorName}");
+            }
         }
     }
 }

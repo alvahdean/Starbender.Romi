@@ -1,8 +1,8 @@
 namespace Starbender.Romi.Services.Device
 {
-    using Starbender.Core.Automapper;
     using AutoMapper;
 
+    using Starbender.Core.Automapper;
     using Starbender.Romi.Data.Models;
 
     public class MappingService : IMappingDefinitionService

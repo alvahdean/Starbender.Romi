@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace Starbender.Romi.Services.Device
+﻿namespace Starbender.Romi.Services.Device
 {
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Xml;
 
     using AutoMapper;
 
@@ -17,13 +14,15 @@ namespace Starbender.Romi.Services.Device
     {
         private readonly IMapper _mapper;
 
-        public TimeSensor(IMapper mapper) : base(mapper)
+        public TimeSensor(IMapper mapper)
+            : base(mapper)
         {
             _mapper = mapper;
             DefaultTimeZone = DateTimeZone.Utc;
             this._supportedTypes.AddRange(new[] { "Time" });
-            //this._supportedNames.Add("Time", TimeZoneInfo.GetSystemTimeZones().Select(t => t.StandardName).ToList());
-            this._supportedNames.Add("Time", NodaTime.DateTimeZoneProviders.Tzdb.Ids.ToList());
+
+            // this._supportedNames.Add("Time", TimeZoneInfo.GetSystemTimeZones().Select(t => t.StandardName).ToList());
+            this._supportedNames.Add("Time", DateTimeZoneProviders.Tzdb.Ids.ToList());
         }
 
         public DateTimeZone DefaultTimeZone { get; set; }
@@ -38,8 +37,8 @@ namespace Starbender.Romi.Services.Device
             try
             {
                 EnsureSupported(sensorType, sensorName);
-                
-                var tz = NodaTime.DateTimeZoneProviders.Tzdb.GetZoneOrNull(sensorName);
+
+                var tz = DateTimeZoneProviders.Tzdb.GetZoneOrNull(sensorName);
                 result.Attribute = tz.Id;
                 result.Result = SystemClock.Instance.GetCurrentInstant().InZone(tz);
                 result.IsSuccessful = true;

@@ -10,13 +10,9 @@
 
     public interface IGpioService
     {
-        Task<IGpioPinModel> SetPinConfiguration(int bcmPinNumber, IGpioPinModel pinConfiguration);
-
         Task<IGpioPinModel> GetPinConfiguration(BcmPin bcmPin);
 
         Task<IGpioPinModel> GetPinConfiguration(int bcmPinNumber);
-
-        Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumber, IGpioPinModel pinConfiguration);
 
         Task<bool> HasCapability(IGpioPinModel pin, PinCapability capability);
 
@@ -29,6 +25,10 @@
         Task RegisterInterruptCallback(IGpioPinModel pin, EdgeDetection edgeDetection, Action callback);
 
         Task RegisterInterruptCallback(IGpioPinModel pin, EdgeDetection edgeDetection, Action<int, int, uint> callback);
+
+        Task<IGpioPinModel> SetPinConfiguration(int bcmPinNumber, IGpioPinModel pinConfiguration);
+
+        Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumber, IGpioPinModel pinConfiguration);
 
         Task StartSoftPwm(IGpioPinModel pin, int value, int range);
 

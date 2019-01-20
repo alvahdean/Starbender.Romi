@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Starbender.Romi.Data.Models
+﻿namespace Starbender.Romi.Data.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Runtime.Serialization;
 
@@ -12,15 +9,22 @@ namespace Starbender.Romi.Data.Models
     public class SensorResult
     {
         private string _jsonResult;
-        private object _result;
 
-        public SensorPoco Sensor { get; set; }
+        private object _result;
 
         public string Attribute { get; set; }
 
-        public string SensorType { get; set; }
+        [IgnoreDataMember]
+        public Exception Exception
+        {
+            set => Message = value.Message;
+        }
 
         public int Id { get; set; }
+
+        public bool IsSuccessful { get; set; }
+
+        public string Message { get; set; }
 
         [NotMapped]
         public object Result
@@ -40,18 +44,12 @@ namespace Starbender.Romi.Data.Models
             set
             {
                 this._jsonResult = value;
-                this._result = value!=null ? JsonConvert.DeserializeObject(value) : null;
+                this._result = value != null ? JsonConvert.DeserializeObject(value) : null;
             }
         }
 
-        public bool IsSuccessful { get; set; }
+        public SensorPoco Sensor { get; set; }
 
-        public string Message { get; set; }
-
-        [IgnoreDataMember]
-        public Exception Exception
-        {
-            set => Message = value.Message;
-        }
+        public string SensorType { get; set; }
     }
 }

@@ -10,11 +10,6 @@
 
     public sealed class GpioService : IGpioService
     {
-        public async Task<IGpioPinModel> SetPinConfiguration(int bcmPinNumber, IGpioPinModel pinConfiguration)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IGpioPinModel> GetPinConfiguration(BcmPin bcmPin)
         {
             throw new NotImplementedException();
@@ -22,14 +17,9 @@
 
         public async Task<IGpioPinModel> GetPinConfiguration(int bcmPinNumber)
         {
-            var result=new GpioPinModel();
+            var result = new GpioPinModel();
 
             return result;
-        }
-
-        public async Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumbe, IGpioPinModel pinConfiguration)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<bool> HasCapability(IGpioPinModel pin, PinCapability capability)
@@ -57,7 +47,20 @@
             throw new NotImplementedException();
         }
 
-        public async Task RegisterInterruptCallback(IGpioPinModel pin, EdgeDetection edgeDetection, Action<int, int, uint> callback)
+        public async Task RegisterInterruptCallback(
+            IGpioPinModel pin,
+            EdgeDetection edgeDetection,
+            Action<int, int, uint> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IGpioPinModel> SetPinConfiguration(int bcmPinNumber, IGpioPinModel pinConfiguration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IGpioPinModel> SetPinConfiguration(BcmPin bcmPinNumbe, IGpioPinModel pinConfiguration)
         {
             throw new NotImplementedException();
         }

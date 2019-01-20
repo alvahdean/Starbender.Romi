@@ -1,5 +1,4 @@
-﻿
-namespace Starbender.Romi.Hardware.Communication
+﻿namespace Starbender.Romi.Hardware.Communication
 {
     using System;
     using System.Linq;
@@ -11,12 +10,33 @@ namespace Starbender.Romi.Hardware.Communication
     {
         private static GpioController gpio = GpioController.Instance;
 
+        public override byte ReadByte(GpioChannel channel)
+        {
+            ValidateChannel(channel);
+            int pin = toPinId(channel.Pin);
+            int result;
+            switch (channel.Mode)
+            {
+                case GpioMode.Analog:
+                    result = WiringPi.AnalogRead(pin);
+                    break;
+                case GpioMode.Digital:
+                    result = WiringPi.DigitalRead(pin);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Invalid pin operation");
+                    break;
+            }
+
+            return (byte)(result & 0xFF);
+        }
+
         public override int Write(GpioChannel channel, byte data)
         {
             ValidateChannel(channel);
             int pin = toPinId(channel.Pin);
             GpioPin gpioPin = toGpioPin(channel.Pin);
-            
+
             switch (channel.Mode)
             {
                 case GpioMode.Analog:
@@ -31,12 +51,13 @@ namespace Starbender.Romi.Hardware.Communication
                     gpioPin.PinMode = GpioPinDriveMode.PwmOutput;
                     if (gpioPin.IsInSoftPwmMode)
                     {
-                        gpioPin.StartSoftPwm(data,255);
+                        gpioPin.StartSoftPwm(data, 255);
                     }
                     else
                     {
-                        WiringPi.PwmWrite(pin,data);
+                        WiringPi.PwmWrite(pin, data);
                     }
+
                     break;
                 default:
                     throw new InvalidOperationException($"Invalid pin operation");
@@ -45,32 +66,6 @@ namespace Starbender.Romi.Hardware.Communication
 
             return 1;
         }
-
-        public override byte ReadByte(GpioChannel channel)
-        {
-            ValidateChannel(channel);
-            int pin = toPinId(channel.Pin);
-            int result;
-            switch (channel.Mode)
-            {
-
-                case GpioMode.Analog:
-                    result=WiringPi.AnalogRead(pin);
-                    break;
-                case GpioMode.Digital:
-                    result = WiringPi.DigitalRead(pin);
-                    break;
-                default:
-                    throw new InvalidOperationException($"Invalid pin operation");
-                    break;
-            }
-
-            return (byte)(result & 0xFF);
-        }
-
-        private int toPinId(WiringPiPin pin) => WiringPi.WpiPinToGpio((int)pin);
-
-        private GpioPin toGpioPin(WiringPiPin pin) => gpio.Pins[toPinId(pin)];
 
         protected override void ValidateChannel(GpioChannel channel)
         {
@@ -95,5 +90,9 @@ namespace Starbender.Romi.Hardware.Communication
                 throw new InvalidOperationException("Channel not GPIO capable");
             }
         }
+
+        private GpioPin toGpioPin(WiringPiPin pin) => gpio.Pins[toPinId(pin)];
+
+        private int toPinId(WiringPiPin pin) => WiringPi.WpiPinToGpio((int)pin);
     }
 }

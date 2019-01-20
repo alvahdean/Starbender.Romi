@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Starbender.Romi.Hardware.Communication
+﻿namespace Starbender.Romi.Hardware.Communication
 {
     using AutoMapper;
 
@@ -11,10 +7,10 @@ namespace Starbender.Romi.Hardware.Communication
     public class Mapper : Profile
     {
         private static GpioController gpio = GpioController.Instance;
+
         public Mapper()
         {
             // CreateMap<WiringPiPin, GpioPin>().ConvertUsing((wPin,gPin) => new GpioPin(wPin,gpio.HeaderP1));
-            
         }
     }
 }

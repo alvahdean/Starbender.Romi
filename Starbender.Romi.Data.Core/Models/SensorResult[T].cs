@@ -1,8 +1,5 @@
-﻿
-namespace Starbender.Romi.Data.Models
+﻿namespace Starbender.Romi.Data.Models
 {
-    using Newtonsoft.Json;
-
     public class SensorResult<TResult> : SensorResult
     {
         public SensorResult()
@@ -22,7 +19,7 @@ namespace Starbender.Romi.Data.Models
 
         public new TResult Result
         {
-            get => (TResult) base.Result;
+            get => (TResult)base.Result;
             set => base.Result = value;
         }
     }

@@ -1,16 +1,11 @@
-﻿using System;
-
-namespace Starbender.Romi.Data.Models
+﻿namespace Starbender.Romi.Data.Models
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     public class SensorPoco
     {
+        public RomiApplicationHost Host { get; set; }
+
         public int Id { get; set; }
 
         public string TypeName { get; set; }
-
-        public RomiApplicationHost Host { get; set; }
     }
 }

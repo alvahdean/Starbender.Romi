@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <Configurations>Debug;Release</Configurations>
     <ApplicationIcon>starbender.ico</ApplicationIcon>
-    <Version>1.0.0-dev0007</Version>
+    <Version>1.0.0-dev0009</Version>
   </PropertyGroup>
 
   <!--MSBump-->

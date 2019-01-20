@@ -1,27 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Starbender.Romi.Services.Configuration
+﻿namespace Starbender.Romi.Services.Configuration
 {
     using System.IO;
 
     using Starbender.Romi.Data.Models;
 
-    public class HostSettings 
+    public class HostSettings
     {
-        public static HostSettings Default
-        {
-            get
-            {
-
-                return new HostSettings()
-                           {
-
-                           };
-            }
-        }
-
         public HostSettings()
         {
             string appPath = "/apps/romi";
@@ -33,11 +17,12 @@ namespace Starbender.Romi.Services.Configuration
             DataPath = $"{appPath}/data";
         }
 
-        public HostSettings(RomiSettings settings) : this()
+        public HostSettings(RomiSettings settings)
+            : this()
         {
             if (settings != null)
             {
-                ServicePort = settings.ServicePort>0 ? settings.ServicePort : 1865;
+                ServicePort = settings.ServicePort > 0 ? settings.ServicePort : 1865;
                 ApiRoot = settings.ApiRoot ?? ApiRoot;
                 ApiVersion = settings.ApiVersion ?? ApiVersion;
                 ApplicationPath = settings.ApplicationPath ?? ApplicationPath;
@@ -56,22 +41,13 @@ namespace Starbender.Romi.Services.Configuration
             }
         }
 
-        public string ConnectionString => $"Data Source={DataPath}/romi.db;";
-
-        /// <summary>
-        /// Primary Key
-        /// </summary>
-        public string Id { get; internal set; }
-
-        /// <summary>
-        /// Host part of the service Url
-        /// </summary>
-        public string ServiceHost { get; internal set; }
-
-        /// <summary>
-        /// The port that the service will listen
-        /// </summary>
-        public int ServicePort { get; internal set; }
+        public static HostSettings Default
+        {
+            get
+            {
+                return new HostSettings() { };
+            }
+        }
 
         /// <summary>
         /// The root path to the REST API
@@ -88,15 +64,31 @@ namespace Starbender.Romi.Services.Configuration
         /// </summary>
         public string ApplicationPath { get; internal set; }
 
-        /// <summary>
-        /// The directory to which logs will be written
-        /// </summary>
-        public string LogPath { get; internal set; }
+        public string ConnectionString => $"Data Source={DataPath}/romi.db;";
 
         /// <summary>
         /// The directory where application data is stored
         /// </summary>
         public string DataPath { get; internal set; }
 
+        /// <summary>
+        /// Primary Key
+        /// </summary>
+        public string Id { get; internal set; }
+
+        /// <summary>
+        /// The directory to which logs will be written
+        /// </summary>
+        public string LogPath { get; internal set; }
+
+        /// <summary>
+        /// Host part of the service Url
+        /// </summary>
+        public string ServiceHost { get; internal set; }
+
+        /// <summary>
+        /// The port that the service will listen
+        /// </summary>
+        public int ServicePort { get; internal set; }
     }
 }

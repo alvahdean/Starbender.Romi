@@ -1,24 +1,29 @@
-﻿using Starbender.Romi.Data.Models;
-using Starbender.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Starbender.Romi.Services.Administration
+﻿namespace Starbender.Romi.Services.Administration
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Starbender.Core;
+    using Starbender.Romi.Data.Models;
+
     public interface IAdministrationService
     {
-        ServiceResult<RomiSettings> UpdateSettings(RomiSettings settings);
-
         ServiceResult<RegisteredDevice> AddDevice(RegisteredInterface deviceInterface, RegisteredDevice device);
-        ServiceResult RemoveDevice(RegisteredDevice device);
 
         ServiceResult<RegisteredInterface> AddInterface(RegisteredInterface deviceInterface);
-        ServiceResult RemoveInterface(RegisteredInterface deviceInterface);
 
         ServiceResult<ApplicationIdentity> AddUser(ApplicationIdentity user);
-        ServiceResult RemoveUser(ApplicationIdentity user);
-        ServiceResult UpdateUser(ApplicationIdentity user);
+
         ServiceResult<IEnumerable<ApplicationIdentity>> GetUsers();
+
+        ServiceResult RemoveDevice(RegisteredDevice device);
+
+        ServiceResult RemoveInterface(RegisteredInterface deviceInterface);
+
+        ServiceResult RemoveUser(ApplicationIdentity user);
+
+        ServiceResult<RomiSettings> UpdateSettings(RomiSettings settings);
+
+        ServiceResult UpdateUser(ApplicationIdentity user);
     }
 }

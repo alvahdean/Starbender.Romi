@@ -6,8 +6,6 @@
 
     public interface IGpioPinModel
     {
-        string Name { get; set; }
-
         BcmPin BcmPin { get; set; }
 
         int BcmPinNumber { get; set; }
@@ -25,6 +23,8 @@
         bool IsInSoftPwmMode { get; set; }
 
         bool IsInSoftToneMode { get; set; }
+
+        string Name { get; set; }
 
         int PhysicalPinNumber { get; set; }
 

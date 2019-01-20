@@ -1,7 +1,6 @@
 namespace Starbender.Romi.Services.Configuration
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using AutoMapper;
@@ -22,7 +21,11 @@ namespace Starbender.Romi.Services.Configuration
             config.CreateMap<TimeZonePoco, DateTimeZone>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.MinOffset, opt => opt.MapFrom(src => src.Intervals.First().OffsetMinutes))
-                .ForMember(dest => dest.MaxOffset, opt => opt.MapFrom(src => src.Intervals.First().OffsetMinutes + (src.Intervals.First().UtcEnd- src.Intervals.First().UtcStart).TotalMinutes));
+                .ForMember(
+                    dest => dest.MaxOffset,
+                    opt => opt.MapFrom(
+                        src => src.Intervals.First().OffsetMinutes
+                               + (src.Intervals.First().UtcEnd - src.Intervals.First().UtcStart).TotalMinutes));
             config.CreateMap<IDateTimeZoneProvider, TimeZoneVersionPoco>().ConstructUsing(
                 t => new TimeZoneVersionPoco() { Loaded = DateTimeOffset.UtcNow, Version = t.VersionId });
         }

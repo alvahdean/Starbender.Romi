@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Starbender.Romi.Services.Configuration
+﻿namespace Starbender.Romi.Services.Configuration
 {
+    using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -18,15 +16,11 @@ namespace Starbender.Romi.Services.Configuration
     using NLog;
     using NLog.Config;
     using NLog.Layouts;
-    using NodaTime;
-    using NodaTime.Extensions;
 
     using Starbender.Contracts;
     using Starbender.Core.Data;
-    using Starbender.Core.Time;
     using Starbender.Romi.Data;
     using Starbender.Romi.Data.Models;
-    using Starbender.Romi.Services.Device;
 
     using ILogger = Microsoft.Extensions.Logging.ILogger;
 
@@ -38,7 +32,12 @@ namespace Starbender.Romi.Services.Configuration
 
         private readonly IExternalTimeZoneProvider _tzProvider;
 
-        public ConfigurationSevice(IConfiguration appConfig, ILogger<ConfigurationSevice> logger,IMapper mapper,RomiSettings settings, IExternalTimeZoneProvider tzProvider)
+        public ConfigurationSevice(
+            IConfiguration appConfig,
+            ILogger<ConfigurationSevice> logger,
+            IMapper mapper,
+            RomiSettings settings,
+            IExternalTimeZoneProvider tzProvider)
         {
             this._logger = logger;
             this._mapper = mapper;
@@ -50,6 +49,22 @@ namespace Starbender.Romi.Services.Configuration
         public IConfiguration AppConfig { get; }
 
         public HostSettings Settings { get; }
+
+        public void ConfigureNLog(HostSettings settings)
+        {
+            var logConfig = new XmlLoggingConfiguration("NLog.config");
+
+            if (!logConfig.Variables.TryGetValue("logDirectory", out SimpleLayout logDirectory))
+            {
+                logConfig.Variables.Add("logDirectory", new SimpleLayout(settings.LogPath));
+            }
+            else
+            {
+                logConfig.Variables["logDirectory"] = settings.LogPath;
+            }
+
+            LogManager.Configuration = logConfig;
+        }
 
         public void ConfigurePaths(HostSettings settings)
         {
@@ -81,81 +96,6 @@ namespace Starbender.Romi.Services.Configuration
             }
 
             Directory.CreateDirectory(settings.DataPath);
-
-        }
-
-        public void ConfigureNLog(HostSettings settings)
-        {
-            var logConfig = new XmlLoggingConfiguration("NLog.config");
-
-            if (!logConfig.Variables.TryGetValue("logDirectory", out SimpleLayout logDirectory))
-            {
-                logConfig.Variables.Add("logDirectory", new SimpleLayout(settings.LogPath));
-            }
-            else
-            {
-                logConfig.Variables["logDirectory"] = settings.LogPath;
-            }
-            LogManager.Configuration = logConfig;
-        }
-
-        public async Task<RomiApplicationHost> RegisterApplicationHost(string name, HostSettings settings)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = name ?? "[null]";
-                throw new DataException($"ApplicationHost name '{name}' is invalid");
-            }
-
-            var host= await GetHost(name);
-            if (host != null)
-            {
-                throw  new DataException($"ApplicationHost '{name}' already registered");
-            }
-            
-            host = new RomiApplicationHost() { Name = name, Settings = this._mapper.Map<RomiSettings>(settings), Devices = null };
-            using (var uow = new UnitOfWork<RomiApplicationHost,RomiDbContext>())
-            {
-                await Task.Run(() => uow.Repository().Add(host));
-                host = await uow.Repository().Query(x => x.Name == name).Include(t => t.Settings).SingleOrDefaultAsync();
-            }
-
-            return host;
-        }
-
-        public async Task<List<RomiApplicationHost>> GetHosts()
-        {
-            List<RomiApplicationHost> result = new List<RomiApplicationHost>();
-            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
-            {
-                result = await uow.Repository().All().Include(t => t.Settings).ToListAsync();
-            }
-
-            return result;
-        }
-
-        public async Task<RomiApplicationHost> GetHost(string name)
-        {
-            RomiApplicationHost result = null;
-            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
-            {
-                result = await uow.Repository().Query(x => x.Name == name).Include(t => t.Settings).SingleOrDefaultAsync();
-            }
-
-            return result;
-        }
-
-        public async Task<RomiApplicationHost> GetLocalHost()
-        {
-            return await this.GetHost(".");
-        }
-
-        public async Task UpdateApplicationHost(RomiApplicationHost host)
-        {
-            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
-            {
-                await Task.Run(() => uow.Repository().Update(host));
-            }
         }
 
         public async Task DeleteApplicationHost(RomiApplicationHost host)
@@ -175,48 +115,15 @@ namespace Starbender.Romi.Services.Configuration
             }
         }
 
-        public async Task<TInterface> RegisterInterface<TInterface>()
-            where TInterface : RegisteredInterface,new ()
+        public async Task DeleteDevice(RegisteredDevice device)
         {
-            TInterface devInterface = await this.GetInterface<TInterface>();
-
-            Type type = typeof(TInterface);
-
-            string typeName = type.FullName;
-
-            if (devInterface != null)
+            if (device != null)
             {
-                throw new Exception($"DeviceInterface '{typeName}' is already registered");
+                using (var uow = new UnitOfWork<RegisteredDevice, RomiDbContext>())
+                {
+                    await Task.Run(() => uow.Repository().Delete(device));
+                }
             }
-
-            var poco = new TInterface() { Name = typeName, };
-
-            using (var uow = new UnitOfWork<RegisteredInterface, RomiDbContext>())
-            {
-                await Task.Run(() => uow.Repository().Add(poco));
-            }
-
-            return await this.GetInterface<TInterface>();
-        }
-
-        public async Task<TInterface> GetInterface<TInterface>()
-            where TInterface : RegisteredInterface, new()
-        {
-            Type interfaceType = typeof(TInterface);
-            var interfaceList = await this.GetInterfaces();
-            return interfaceList.FirstOrDefault(t => t.Name == interfaceType.FullName) as TInterface;
-        }
-
-        public async Task<List<RegisteredInterface>> GetInterfaces()
-        {
-            List < RegisteredInterface > result=new List<RegisteredInterface>();
-            using (var uow = new UnitOfWork<RegisteredInterface, RomiDbContext>())
-            {
-                var items=await uow.Repository().AllAsync();
-                result.AddRange(items);
-            }
-
-            return result;
         }
 
         public async Task DeleteInterface(RegisteredInterface deviceInterface)
@@ -225,29 +132,6 @@ namespace Starbender.Romi.Services.Configuration
             {
                 await Task.Run(() => uow.Repository().Delete(deviceInterface));
             }
-        }
-
-        public async Task<TDevice> RegisterDevice<TDevice>() where TDevice : RegisteredDevice, new()
-        {
-            TDevice device = await this.GetDevice<TDevice>();
-
-            Type type = typeof(TDevice);
-
-            string typeName = type.FullName;
-
-            if (device != null)
-            {
-                throw new Exception($"Device '{typeName}' is already registered");
-            }
-
-            var poco = new TDevice() { Name = typeName, };
-
-            using (var uow = new UnitOfWork<RegisteredDevice, RomiDbContext>())
-            {
-                await Task.Run(() => uow.Repository().Add(poco));
-            }
-
-            return await this.GetDevice<TDevice>();
         }
 
         public async Task<TDevice> GetDevice<TDevice>(RomiApplicationHost host = null)
@@ -270,21 +154,144 @@ namespace Starbender.Romi.Services.Configuration
             List<RegisteredDevice> result = new List<RegisteredDevice>();
             using (var uow = new UnitOfWork<RegisteredDevice, RomiDbContext>())
             {
-                var items=await uow.Repository().FindAsync(t=>t.ApplicationHost==host && (deviceInterface==null || t.Interface==deviceInterface));
+                var items = await uow.Repository().FindAsync(
+                                t => t.ApplicationHost == host
+                                     && (deviceInterface == null || t.Interface == deviceInterface));
                 result.AddRange(items);
             }
 
             return result;
         }
 
-        public async Task DeleteDevice(RegisteredDevice device)
+        public async Task<RomiApplicationHost> GetHost(string name)
         {
+            RomiApplicationHost result = null;
+            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
+            {
+                result = await uow.Repository().Query(x => x.Name == name).Include(t => t.Settings)
+                             .SingleOrDefaultAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<List<RomiApplicationHost>> GetHosts()
+        {
+            List<RomiApplicationHost> result = new List<RomiApplicationHost>();
+            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
+            {
+                result = await uow.Repository().All().Include(t => t.Settings).ToListAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<TInterface> GetInterface<TInterface>()
+            where TInterface : RegisteredInterface, new()
+        {
+            Type interfaceType = typeof(TInterface);
+            var interfaceList = await this.GetInterfaces();
+            return interfaceList.FirstOrDefault(t => t.Name == interfaceType.FullName) as TInterface;
+        }
+
+        public async Task<List<RegisteredInterface>> GetInterfaces()
+        {
+            List<RegisteredInterface> result = new List<RegisteredInterface>();
+            using (var uow = new UnitOfWork<RegisteredInterface, RomiDbContext>())
+            {
+                var items = await uow.Repository().AllAsync();
+                result.AddRange(items);
+            }
+
+            return result;
+        }
+
+        public async Task<RomiApplicationHost> GetLocalHost()
+        {
+            return await this.GetHost(".");
+        }
+
+        public async Task<RomiApplicationHost> RegisterApplicationHost(string name, HostSettings settings)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = name ?? "[null]";
+                throw new DataException($"ApplicationHost name '{name}' is invalid");
+            }
+
+            var host = await GetHost(name);
+            if (host != null)
+            {
+                throw new DataException($"ApplicationHost '{name}' already registered");
+            }
+
+            host = new RomiApplicationHost()
+                       {
+                           Name = name, Settings = this._mapper.Map<RomiSettings>(settings), Devices = null
+                       };
+            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
+            {
+                await Task.Run(() => uow.Repository().Add(host));
+                host = await uow.Repository().Query(x => x.Name == name).Include(t => t.Settings)
+                           .SingleOrDefaultAsync();
+            }
+
+            return host;
+        }
+
+        public async Task<TDevice> RegisterDevice<TDevice>()
+            where TDevice : RegisteredDevice, new()
+        {
+            TDevice device = await this.GetDevice<TDevice>();
+
+            Type type = typeof(TDevice);
+
+            string typeName = type.FullName;
+
             if (device != null)
             {
-                using (var uow = new UnitOfWork<RegisteredDevice, RomiDbContext>())
-                {
-                    await Task.Run(() => uow.Repository().Delete(device));
-                }
+                throw new Exception($"Device '{typeName}' is already registered");
+            }
+
+            var poco = new TDevice() { Name = typeName, };
+
+            using (var uow = new UnitOfWork<RegisteredDevice, RomiDbContext>())
+            {
+                await Task.Run(() => uow.Repository().Add(poco));
+            }
+
+            return await this.GetDevice<TDevice>();
+        }
+
+        public async Task<TInterface> RegisterInterface<TInterface>()
+            where TInterface : RegisteredInterface, new()
+        {
+            TInterface devInterface = await this.GetInterface<TInterface>();
+
+            Type type = typeof(TInterface);
+
+            string typeName = type.FullName;
+
+            if (devInterface != null)
+            {
+                throw new Exception($"DeviceInterface '{typeName}' is already registered");
+            }
+
+            var poco = new TInterface() { Name = typeName, };
+
+            using (var uow = new UnitOfWork<RegisteredInterface, RomiDbContext>())
+            {
+                await Task.Run(() => uow.Repository().Add(poco));
+            }
+
+            return await this.GetInterface<TInterface>();
+        }
+
+        public async Task UpdateApplicationHost(RomiApplicationHost host)
+        {
+            using (var uow = new UnitOfWork<RomiApplicationHost, RomiDbContext>())
+            {
+                await Task.Run(() => uow.Repository().Update(host));
             }
         }
     }

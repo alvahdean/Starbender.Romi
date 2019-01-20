@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Starbender.Romi.Devices.Gpio
+﻿namespace Starbender.Romi.Devices.Gpio
 {
     public class GpioDevice
     {
