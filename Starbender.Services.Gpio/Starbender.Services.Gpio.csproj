@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Starbender Gpio Service</Description>
+    <Authors>Dean Fuqua</Authors>
+    <Company>Starbender Systems</Company>
+    <PackageProjectUrl>https://github.com/alvahdean/Starbender.Romi/projects/1</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/alvahdean/Starbender.Romi/blob/master/LICENSE.md</PackageLicenseUrl>
+    <Copyright>Starbender Systems 2018</Copyright>
+    <RepositoryUrl>https://github.com/alvahdean/Starbender.Romi</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Configurations>Debug;Release</Configurations>
+    <ApplicationIcon>starbender.ico</ApplicationIcon>
+    <Version>1.0.0-dev0013</Version>
+  </PropertyGroup>
+
+  <!--MSBump-->
+  <PropertyGroup Condition="$(Configuration) == 'Debug'">
+    <BumpLabel>dev</BumpLabel>
+    <BumpLabelDigits>4</BumpLabelDigits>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == 'Release'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <BumpBuild>True</BumpBuild>
+    <BumpResetLabel>dev</BumpResetLabel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="NodaTime" Version="2.4.4" />
+    <PackageReference Include="MSBump" Version="2.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
+    <PackageReference Include="Starbender.Core" Version="1.0.2" />
+    <PackageReference Include="Unosquare.Raspberry.Abstractions" Version="0.2.1" />
+    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.2.3" />
+    <PackageReference Include="Unosquare.WiringPi" Version="0.2.3" />
+  </ItemGroup>
+</Project>

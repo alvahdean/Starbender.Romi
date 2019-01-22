@@ -328,3 +328,11 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+#AppSettings config files
+#appsettings\.json
+#appsettings\.Development\.json
+
+Starbender\.Romi\.Data\.Core/Migrations/
+
+Starbender\.Romi\.Web\.Service\.bak/

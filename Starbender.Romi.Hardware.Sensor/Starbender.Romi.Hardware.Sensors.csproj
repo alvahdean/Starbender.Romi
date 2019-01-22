@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NodaTime" Version="2.4.3" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starbender.Romi.Data.Core\Starbender.Romi.Data.Core.csproj" />
+  </ItemGroup>
+
+</Project>
