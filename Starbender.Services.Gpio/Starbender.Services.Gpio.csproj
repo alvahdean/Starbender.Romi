@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <Configurations>Debug;Release</Configurations>
     <ApplicationIcon>starbender.ico</ApplicationIcon>
-    <Version>1.0.0-dev0009</Version>
+    <Version>1.0.0-dev0013</Version>
   </PropertyGroup>
 
   <!--MSBump-->
@@ -37,8 +37,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
-    <PackageReference Include="Starbender.Core" Version="1.0.1" />
+    <PackageReference Include="Starbender.Core" Version="1.0.2" />
     <PackageReference Include="Unosquare.Raspberry.Abstractions" Version="0.2.1" />
+    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.2.3" />
     <PackageReference Include="Unosquare.WiringPi" Version="0.2.3" />
   </ItemGroup>
 </Project>

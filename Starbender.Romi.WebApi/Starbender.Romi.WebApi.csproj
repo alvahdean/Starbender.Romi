@@ -2,29 +2,46 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeIdentifiers>win10-x64;linux-arm</RuntimeIdentifiers>
     <UserSecretsId>aspnet-Starbender.Romi.WebApi-82B75575-2A00-4407-847C-EF55E83C99C8</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <SshDeployHost>astropi-console</SshDeployHost>
+    <SshDeployClean />
+    <SshDeployTargetPath>/usr/local/web/romi</SshDeployTargetPath>
+    <SshDeployUsername>dfuqua</SshDeployUsername>
+    <SshDeployPassword>Tjk4rm11</SshDeployPassword>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <Target Condition="$(BuildingInsideSshDeploy) ==''" Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd $(ProjectDir)" />
+    <Exec Command="dotnet-sshdeploy push --clean --runtime linux-arm " />
+  </Target>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="NLog" Version="4.5.11" />
     <PackageReference Include="SSHDeploy" Version="1.0.3" />
     <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
-    <PackageReference Include="Starbender.Core" Version="1.0.1" />
+    <PackageReference Include="Starbender.Core" Version="1.0.2" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\Starbender.Romi.Services.Configuration\Starbender.Romi.Services.Configuration.csproj" />
-    <ProjectReference Include="..\Starbender.Services.Gpio\Starbender.Services.Gpio.csproj" />
+    <ProjectReference Include="..\Starbender.Services.RaspberryPi\Starbender.Services.RaspberryPi.csproj" />
   </ItemGroup>
 
 
@@ -35,6 +52,21 @@
     <Content Update="Views\Shared\_Layout.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Data\" />
+    <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Areas\Administration\Views\" />
+    <Folder Include="Areas\Device\Data\" />
+    <Folder Include="Areas\Device\Models\" />
+    <Folder Include="Areas\Device\Views\" />
+    <Folder Include="Areas\Home\Data\" />
+    <Folder Include="Areas\Home\Models\" />
+    <Folder Include="Areas\Home\Views\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\Administration\" />
   </ItemGroup>
 
 </Project>

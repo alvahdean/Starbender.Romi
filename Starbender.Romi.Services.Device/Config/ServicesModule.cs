@@ -1,4 +1,4 @@
-namespace Starbender.Romi.Services.Configuration
+namespace Starbender.Romi.Services.Configuration.Config
 {
     using System.Reflection;
 
@@ -16,6 +16,7 @@ namespace Starbender.Romi.Services.Configuration
                                                                    || x.Name.EndsWith("Factory")))
                 .AsImplementedInterfaces()
                 .SingleInstance();
+
         }
     }
 }

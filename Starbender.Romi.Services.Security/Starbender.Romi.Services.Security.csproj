@@ -8,7 +8,7 @@
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
-    <PackageReference Include="Starbender.Core" Version="1.0.1" />
+    <PackageReference Include="Starbender.Core" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

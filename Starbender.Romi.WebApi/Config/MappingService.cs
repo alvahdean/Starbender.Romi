@@ -1,10 +1,10 @@
-namespace Starbender.Romi.Web.Service.Config
+namespace Starbender.Romi.WebApi.Config
 {
     using AutoMapper;
 
     using Starbender.Core.Automapper;
-    using Starbender.Romi.Web.Service.Models;
-    using Starbender.Services.Gpio.WiringPi.Models;
+    using Starbender.Romi.WebApi.Models;
+    using Starbender.Services.RaspberryPi.Models.Gpio;
 
     public class MappingService : IMappingDefinitionService
     {

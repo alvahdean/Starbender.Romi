@@ -10,15 +10,19 @@ using Microsoft.Extensions.Logging;
 
 namespace Starbender.Romi.WebApi
 {
+    using Autofac.Extensions.DependencyInjection;
+
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseKestrel()
+                .ConfigureServices(services => services.AddAutofac())
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseStartup<Startup>()
+                .Build()
+                .Run();
+        }
     }
 }

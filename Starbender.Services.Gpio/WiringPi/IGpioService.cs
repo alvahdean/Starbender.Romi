@@ -10,9 +10,9 @@
 
     public interface IGpioService
     {
-        Task<IGpioPinModel> GetPinConfiguration(BcmPin bcmPin);
+        IGpioPinModel GetPinConfiguration(BcmPin bcmPin);
 
-        Task<IGpioPinModel> GetPinConfiguration(int bcmPinNumber);
+        IGpioPinModel GetPinConfiguration(int bcmPinNumber);
 
         Task<bool> HasCapability(IGpioPinModel pin, PinCapability capability);
 

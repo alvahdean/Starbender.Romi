@@ -24,7 +24,7 @@
     <PackageReference Include="NLog" Version="4.5.11" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
     <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
-    <PackageReference Include="Starbender.Core" Version="1.0.1" />
+    <PackageReference Include="Starbender.Core" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

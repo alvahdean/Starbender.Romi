@@ -1,4 +1,4 @@
-﻿namespace Starbender.Romi.Web.Service.Models
+﻿namespace Starbender.Romi.WebApi.Models
 {
     public class UserInfo
     {

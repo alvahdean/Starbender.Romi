@@ -1,7 +1,10 @@
 ﻿namespace Starbender.Services.Gpio.WiringPi
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using AutoMapper;
 
     using Starbender.Services.Gpio.WiringPi.Models;
 
@@ -10,13 +13,25 @@
 
     public sealed class GpioService : IGpioService
     {
-        public async Task<IGpioPinModel> GetPinConfiguration(BcmPin bcmPin)
+        private IGpioController _gpioController;
+
+        private IMapper _mapper;
+
+        public GpioService(IMapper mapper)
         {
-            throw new NotImplementedException();
+            this._gpioController = Pi.;
+            this._mapper = mapper;
         }
 
-        public async Task<IGpioPinModel> GetPinConfiguration(int bcmPinNumber)
+        public IGpioPinModel GetPinConfiguration(BcmPin bcmPin)
         {
+            return  GetPinConfiguration(BcmPinToNumber(bcmPin));
+        }
+
+        public IGpioPinModel GetPinConfiguration(int bcmPinNumber)
+        {
+            var pinState = _gpioController[bcmPinNumber];
+            var model = this._mapper.Map<GpioPinModel>(pinState);
             var result = new GpioPinModel();
 
             return result;
@@ -94,5 +109,11 @@
         {
             throw new NotImplementedException();
         }
+
+        private int BcmPinToNumber(BcmPin bcmPin) =>
+            _gpioController.Where(t => t.BcmPin == bcmPin).Select(t => t.BcmPinNumber).First();
+
+        private BcmPin BcmNumberToPin(int bcmNumber) =>
+            _gpioController.Where(t => t.BcmPinNumber == bcmNumber).Select(t => t.BcmPin).First();
     }
 }
