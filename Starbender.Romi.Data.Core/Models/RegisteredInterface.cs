@@ -1,8 +1,6 @@
 ﻿namespace Starbender.Romi.Data.Models
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Class containing registration information for a device interface to be supported by the web service
@@ -18,6 +16,11 @@
         }
 
         /// <summary>
+        /// List of devices that implement this interface
+        /// </summary>
+        public List<RegisteredDevice> Devices { get; set; }
+
+        /// <summary>
         /// Primary Key
         /// </summary>
         public int Id { get; set; }
@@ -31,10 +34,5 @@
         /// Device interface version
         /// </summary>
         public int Version { get; set; }
-
-        /// <summary>
-        /// List of devices that implement this interface
-        /// </summary>
-        public List<RegisteredDevice> Devices { get; set; }
     }
 }

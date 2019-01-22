@@ -334,3 +334,5 @@ ASALocalRun/
 #appsettings\.Development\.json
 
 Starbender\.Romi\.Data\.Core/Migrations/
+
+Starbender\.Romi\.Web\.Service\.bak/

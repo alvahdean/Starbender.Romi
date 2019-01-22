@@ -1,26 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Starbender.Romi.Data.Models
+﻿namespace Starbender.Romi.Data.Models
 {
     public class RomiSettings : IRomiSettings
     {
-        /// <summary>
-        /// Primary Key
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Host part of the service Url
-        /// </summary>
-        public string ServiceHost { get; set; }
-
-        /// <summary>
-        /// The port that the service will listen
-        /// </summary>
-        public int ServicePort { get; set; }
-
         /// <summary>
         /// The root path to the REST API
         /// </summary>
@@ -37,13 +18,28 @@ namespace Starbender.Romi.Data.Models
         public string ApplicationPath { get; set; }
 
         /// <summary>
+        /// The directory where application data is stored
+        /// </summary>
+        public string DataPath { get; set; }
+
+        /// <summary>
+        /// Primary Key
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// The directory to which logs will be written
         /// </summary>
         public string LogPath { get; set; }
 
         /// <summary>
-        /// The directory where application data is stored
+        /// Host part of the service Url
         /// </summary>
-        public string DataPath { get; set; }
+        public string ServiceHost { get; set; }
+
+        /// <summary>
+        /// The port that the service will listen
+        /// </summary>
+        public int ServicePort { get; set; }
     }
 }

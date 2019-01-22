@@ -5,8 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Starbender.Romi.Contracts.Core\Starbender.Romi.Contracts.Core.csproj" />
-    <ProjectReference Include="..\Starbender.Romi.Data.Core\Starbender.Romi.Data.Core.csproj" />
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Starbender.Contracts" Version="1.0.1" />
+    <PackageReference Include="Starbender.Core" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starbender.Romi.Data.Core\Starbender.Romi.Data.csproj" />
     <ProjectReference Include="..\Starbender.Romi.Hardware.Communication\Starbender.Romi.Hardware.Communication.csproj" />
   </ItemGroup>
 
